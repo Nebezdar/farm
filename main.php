@@ -1,92 +1,75 @@
 <?php
+abstract class Animal {
 
-
-class Cow {
-    public $milk;
-    public function getId() {
-
-        $this-> id = uniqid();
-}
-public function __construct() {
-
-$this-> milk = rand(8,12);
-$this->getId();
-}
+    public $id;
+    public $name;
+    public abstract function getProduction();
 
 }
 
-$cow = new Cow();
+class Cow extends Animal {
 
+    function __construct()
+    {
+        $this->id = uniqid();
+        $this->name = "Cow";
 
-class Chicken {
-public $eggs;
-public $id;
+    }
 
-
-public function getId() {
-
-$this-> id = uniqid();
+    public function getProduction()
+    {
+        return rand(8, 12);
+    }
 }
 
-public function __construct() {
+class Chicken extends Animal {
 
-$this-> eggs = rand(0,1);
-$this->getId();
+    function __construct()
+    {
+        $this->id = uniqid();
+        $this->name = "Chicken";
+
+    }
+
+    public function getProduction()
+    {
+        return rand(0, 1);
+    }
 }
 
+class addAnimals {
+
+    public function createCow(): cow
+    {
+        return new cow;
+    }
+
+    public function createChicken(): chicken
+    {
+        return new chicken;
+    }
 }
 
-$chicken = new Chicken();
+$addAnimals = new addAnimals();
 
-
-
-
-
-class Farm {
-public $totalMilk;
-public $cows;
-public $totalEggs;
-public $chicken;
-
-public function __construct(){
-$this->cows =[];
-$this->addCows();
-$this->chickens =[];
-$this->addChickens();
-
-
-for ($index = 0; $index<count($this->cows); $index++) {
-$cow = $this->cows[$index];
-
-
-$this->totalMilk += $cow->milk;
+for ($i = 1; $i <= 10; $i++) {
+    $animals[] = $addAnimals->createCow();
 }
 
-for ($index = 0; $index<count($this->chickens); $index++) {
-$chicken = $this->chickens[$index];
-
-
-$this->totalEggs += $chicken->eggs;
+for ($i = 1; $i <= 20; $i++) {
+    $animals[] = $addAnimals->createChicken();
 }
 
-}
+$totalMilk=0;
+$totalEggs=0;
 
+foreach ($animals as $animal){
 
-public function addCows()
-{
-for ($index=0; $index < 10; $index++) {
-array_push($this->cows, new Cow());
+    if ($animal->name =='Cow') {
+        $totalMilk +=$animal->getProduction();
+    } else if ($animal->name =='Chicken') {
+        $totalEggs +=$animal->getProduction();
+    }
 }
-}
-
-public function addChickens()
-{
-for ($index=0; $index < 10; $index++) {
-array_push($this->chickens, new Chicken());
-}
-}
-}
-
-$farm = new Farm();
-echo $farm -> totalMilk.' литров.  ';
-echo $farm -> totalEggs.' штук';
+echo $totalMilk."литров"."\n";
+echo $totalEggs."штук"."\n";
